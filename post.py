@@ -7,10 +7,10 @@ def consumer():
     context = zmq.Context()
 
     consumer_receiver = context.socket(zmq.PULL)
-    consumer_receiver.connect("tcp://127.0.0.0:5555")
+    consumer_receiver.connect("tcp://127.0.0.1:5555")
 
     while True:
-        work = consumer_receiver.recv_json()
+        work = consumer_receiver.recv()
         print(work)
 
     # post_sender = context.socket(zmq.PUSH)
