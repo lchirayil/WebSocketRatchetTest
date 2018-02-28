@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <script src="autobahn.js"></script>
+    <meta charset="utf-8">
+    <title></title>
+  </head>
+  <body>
+    <script>
+
+        var conn = new ab.Session('ws://localhost:8080',
+            function() {
+                conn.subscribe('Programming', function(topic, data) {
+                  console.log('New article published to category "' + topic + '" : ' + data.title);
+                  conn.publish('Article Received!');
+                });
+            },
+            function() {
+                console.warn('WebSocket connection closed');
+            },
+            {'skipSubprotocolCheck': true}
+        );
+    </script>
+  </body>
+</html>
