@@ -2,21 +2,13 @@ import time
 import zmq
 import random
 
-def consumer():
-
+def post():
     context = zmq.Context()
 
-    consumer_receiver = context.socket(zmq.PULL)
-    consumer_receiver.connect("tcp://127.0.0.1:5555")
+    post_sender = context.socket(zmq.PUSH)
+    post_sender.connect("tcp://127.0.0.1:5555")
 
-    while True:
-        work = consumer_receiver.recv()
-        print(work)
+    result = {'category' : 'Programming', 'title': 'This is Python.'}
+    post_sender.send_json(result)
 
-    # post_sender = context.socket(zmq.PUSH)
-    # post_sender.connect("tcp://127.0.0.1:5555")
-    #
-    # result = {'category' : 'Programming', 'title': 'This is Python.'}
-    # post_sender.send_json(result)
-
-consumer()
+post()

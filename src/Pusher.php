@@ -16,16 +16,26 @@ class Pusher implements WampServerInterface {
    */
 
   public function onDataReceived($entry) {
+
     $entryData = json_decode($entry, true);
+
+    //Sent to anyone listening to port 5556
+    $context = new \ZMQContext();
+    $socket = $context->getSocket(\ZMQ::SOCKET_PUB, 'my pusher');
+    $socket->bind("tcp://127.0.0.1:5556");
+    $socket->send($entryData['category'] , 1);
+    $socket->send(json_encode($entryData));
 
     // If the lookup topic object isn't set there is no one to publish to
     if (!array_key_exists($entryData['category'], $this->subscribedTopics)) {
         return;
     }
 
+    // Data to client
     $topic = $this->subscribedTopics[$entryData['category']];
 
     // re-send the data to all the clients subscribed to that category
+
     $topic->broadcast($entryData);
   }
 

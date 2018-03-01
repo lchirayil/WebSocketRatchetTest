@@ -7,8 +7,7 @@
   </head>
   <body>
     <script>
-
-        var conn = new ab.Session('ws://localhost:8080',
+        var conn = new ab.Session('ws://localhost:3000',
             function() {
                 conn.subscribe('Programming', function(topic, data) {
                   console.log('New article published to category "' + topic + '" : ' + data.title);
