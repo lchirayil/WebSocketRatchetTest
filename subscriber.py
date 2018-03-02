@@ -9,7 +9,7 @@ def consumer():
     # recieve work
     consumer_receiver = context.socket(zmq.SUB)
     consumer_receiver.connect("tcp://127.0.0.1:5556")
-    consumer_receiver.setsockopt(zmq.SUBSCRIBE, '')
+    consumer_receiver.setsockopt(zmq.SUBSCRIBE, 'Programming')
 
 
     zmq_socket = context.socket(zmq.PUSH)
